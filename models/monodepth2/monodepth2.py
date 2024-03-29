@@ -22,7 +22,9 @@ class DispNet():
         x = tf.keras.layers.ReLU()(x)
         encoder.append(x)
         x = tf.keras.layers.ZeroPadding2D(1)(x)
-        x = tf.keras.layers.MaxPooling2D(3, 2)(x)
+        # x = tf.keras.layers.MaxPooling2D(3, 2)(x)
+        x = tf.nn.max_pool2d(x, 3, 2, padding='VALID')
+        
 
         for i in range(1, 5):
             x = res_block(x, (i, 0), i > 1)

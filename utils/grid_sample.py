@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+# https://github.com/AlexanderLutsenko/nobuco/blob/aa4745e6abb1124d90f7d3ace6d282f923f08a40/nobuco/node_converters/grid_sampling.py#L38
+
 def gather(input, y, x, b, h, w, c, padding_mode):
     # Slow!
     # return tf.gather_nd(params=input, indices=tf.cast(tf.concat([y, x], axis=-1), dtype=tf.int32), batch_dims=1)
@@ -18,11 +20,13 @@ def gather(input, y, x, b, h, w, c, padding_mode):
     out = tf.gather(params=input, indices=linear_coordinates, batch_dims=1)
     return out
 
+# tf.function(jit_compile=True)
 def grid_sampler(input, grid, mode = "bilinear", padding_mode = "zeros", align_corners = None):
     # (b, w, 2, h) --> (b, h, w, 2)
     # grid = tf.transpose(grid, perm=(0, 3, 1, 2))
 
-    b, h, w, c = tf.cast(tf.shape(input), tf.float32)
+    # b, h, w, c = tf.cast(tf.shape(input), tf.float32)
+    b, h, w, c = input.shape
 
     def process_coord(grid, w_h):
         if align_corners:

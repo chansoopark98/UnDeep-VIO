@@ -20,7 +20,7 @@ class DataLoadHandler(object):
         
         """
         self.dataset_name = 'kitti_custom'
-        self.norm_mode = 'tf'
+        self.norm_mode = 'torch'
         self.data_dir = './data/'
 
         self.seq_len = 5
@@ -52,8 +52,13 @@ class TspxrTFDSGenerator(DataLoadHandler):
         self.image_size = image_size
         self.batch_size = batch_size
         
-        self.number_train = math.ceil(46873 / self.batch_size)
-        self.number_test = math.ceil(6017 / self.batch_size)
+        """
+            'train': <SplitInfo num_examples=20773, num_shards=256>,
+            'validation': <SplitInfo num_examples=2810, num_shards=32>,
+        """
+        
+        self.number_train = math.ceil(20773 / self.batch_size)
+        self.number_test = math.ceil(2810 / self.batch_size)
         super().__init__(data=self.data_dir)
 
     @tf.function(jit_compile=True)

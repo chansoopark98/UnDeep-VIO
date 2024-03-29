@@ -64,7 +64,8 @@ def conv_block(size, inTensor, disp=False, cnt=''):
 
 def up_conv(size, firstTensor, secondTensor=None):
     x = conv_block(size, firstTensor, cnt='0')
-    x = tf.keras.layers.UpSampling2D()(x)
+    x = tf.keras.layers.UpSampling2D(interpolation='bilinear')(x)
+    
     if size > 16:
         x = tf.keras.layers.concatenate([x, secondTensor], axis=-1)
     x = conv_block(size, x, cnt='1')
