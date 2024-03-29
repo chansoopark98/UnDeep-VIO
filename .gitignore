@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ignore dirs
+data/kitti_custom/
+tensorboard/
+
 # ignore files
 *.pth
 
